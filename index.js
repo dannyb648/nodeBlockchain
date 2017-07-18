@@ -1,15 +1,5 @@
 const createHash = require('sha.js');
 var sha256 = createHash('sha256');
-//Require date library
-
-
-//genesis block
-//next block
-
-
-//create chain, add gen block
-
-//add blocks to chain.
 
 class Block {
 	constructor(id, ts, data, lastHash) {
@@ -17,30 +7,30 @@ class Block {
 		this.ts = ts;
 		this.data = data;
 		this.lastHash = lastHash;
-		this.hash = blockHash();
+		this.hash = this.blockHash();
 	}
 	
 	blockHash() {
-		return sha256.update(this.id.toString().concat(this.ts.toString(), this.data.toString(), this.lashHash.toString()),'utf8').digest('hex');
+		return sha256.update(this.id.toString().concat(this.ts.toString(), this.data.toString(), '0'),'utf8').digest('hex');
 	}
 }
 
 function nextBlock(lastBlock) {
 	newId = lastBlock.id + 1;
-	newTs = 'now';
-	newData = i.toString() + " hello I am this block";
+	newTs = Date.now();
+	newData = newId.toString() + " hello I am this block";
 	lastHash = lastBlock.hash;
-	return Block(newId, newTs, newData, lastHash);
+	return new Block(newId, newTs, newData, lastHash);
 }
 
 
-var chain = [new Block(0, 'now', 'test data', '0')];
+var chain = [new Block(0, Date.now(), 'test date', '0')];
 var previousBlock = chain[0];
 
 for(let i = 0; i < 20; i++){
-	let nextBlock = nextBlock(previousBlock);
-	chain.push(nextBlock);
-	previousBlock = nextBlock;
-	console.log(`Block no. ${nextBlock.id} has been added!`);
-	console.log(`Hash: ${nextBlock.hash}`);
+	let newBlock = nextBlock(previousBlock);
+	chain.push(newBlock);
+	previousBlock = newBlock;
+	console.log(`Block no. ${newBlock.id} has been added!`);
+	console.log(`Hash: ${newBlock.hash}`);
 }
